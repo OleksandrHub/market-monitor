@@ -1,0 +1,53 @@
+.dashboard {
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: min(100%, 600px);
+}
+
+.enter-currency {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+
+    &__select {
+        margin-right: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 70%;
+    }
+
+    &__button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+}
+
+.live-price,
+.historical-chart {
+    margin-top: 20px;
+
+    &__container {
+        width: 90%;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    &__title {
+        margin: 5px;
+    }
+}

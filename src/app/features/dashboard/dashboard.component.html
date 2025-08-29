@@ -1,1 +1,16 @@
-<p>dashboard.component works!</p>
+<main class="dashboard">
+    <section class="enter-currency">
+        <select class="enter-currency__select">
+            <option value="USD">USD</option>
+        </select>
+        <button class="enter-currency__button">Subscribe</button>
+    </section>
+    <section class="live-price">
+        <h2 class="live-price__title">Market Data</h2>
+        <app-live-price class="live-price__container"></app-live-price>
+    </section>
+    <section class="historical-chart">
+        <h2 class="historical-chart__title">Charting Data</h2>
+        <app-historical-chart class="historical-chart__container"></app-historical-chart>
+    </section>
+</main>
