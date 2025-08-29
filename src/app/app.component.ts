@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +9,12 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
   imports: [DashboardComponent],
 })
 export class AppComponent {
-  protected title = 'market-monitor';
+  constructor(private authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.authService.login().subscribe({
+      next: () => console.log('Token отримано!'),
+      error: err => console.error(err)
+    });
+  }
 }
