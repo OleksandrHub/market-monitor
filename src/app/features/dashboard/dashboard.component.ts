@@ -12,9 +12,17 @@ import { AuthService } from '../../core/services/auth.service';
 export class DashboardComponent implements OnInit {
 
   constructor(private authService: AuthService) { }
-  ngOnInit() {
-    this.authService.login().subscribe(token => {
-      console.log('Authenticated with token:', token);
+
+  ngOnInit(): void {
+    this.authService.getToken().subscribe({
+      next: (response) => {
+        this.authService.setTokens(response.access_token, response.refresh_token);
+        console.log('Token obtained:', this.authService.getAccessToken());
+        // Proceed with other API calls or WebSocket connection using the token
+      },
+      error: (err) => {
+        console.error('Error obtaining token:', err);
+      }
     });
   }
 }

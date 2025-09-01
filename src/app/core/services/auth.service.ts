@@ -1,34 +1,46 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { AuthResponse } from '../models/auth.model';
 import { environment } from '../../../environments/environment';
-import { TokenResponse } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private token: string | null = null;
+  private refreshToken: string | null = null;
 
   constructor(private http: HttpClient) { }
 
-  login(): Observable<string> {
+  getToken(): Observable<AuthResponse> {
     const body = new URLSearchParams();
     body.set('grant_type', 'password');
     body.set('client_id', 'app-cli');
     body.set('username', environment.username);
     body.set('password', environment.password);
 
-    return this.http.post<TokenResponse>('/api/identity/realms/fintatech/protocol/openid-connect/token', body.toString(), {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }).pipe(map(response => {
-      this.token = response.access_token;
-      return this.token;
-    }));
+    return this.http.post<AuthResponse>(
+      '/api/identity/realms/fintatech/protocol/openid-connect/token', // Proxied path
+      body.toString(),
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }
+    );
   }
 
-  getToken(): string | null {
-    return this.token;
+  setTokens(accessToken: string, refreshToken: string): void {
+    this.token = accessToken;
+    this.refreshToken = refreshToken;
+    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('refresh_token', refreshToken);
+  }
+
+  getAccessToken(): string | null {
+    return this.token || localStorage.getItem('access_token');
+  }
+
+  getRefreshToken(): string | null {
+    return this.refreshToken || localStorage.getItem('refresh_token');
   }
 }
