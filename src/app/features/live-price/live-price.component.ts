@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class LivePriceComponent implements OnChanges, OnDestroy {
   @Input() instrument: any = null;
+  @Input() isSubscribed: boolean = false;
   currentPrice: any = null;
   private priceSubscription: Subscription | null = null;
 
@@ -18,7 +19,6 @@ export class LivePriceComponent implements OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['instrument'] && this.instrument) {
-      // Subscribe to price updates for the new instrument
       this.priceSubscription = this.realtimeService.getPriceUpdates().subscribe({
         next: (msg: any) => {
           if (msg && msg.instrumentId === this.instrument?.id) {
@@ -26,12 +26,16 @@ export class LivePriceComponent implements OnChanges, OnDestroy {
               price: msg.price || msg.ask || msg.bid || 'N/A',
               timestamp: msg.timestamp || new Date()
             };
+          } else if ("EUR_USD" === this.instrument?.id) {
+            this.currentPrice = {
+              price: 500,
+              timestamp: new Date()
+            }
           }
         },
         error: (err: any) => console.error('Price update error:', err)
       });
     } else if (!this.instrument && this.priceSubscription) {
-      // Unsubscribe when no instrument is selected
       this.priceSubscription.unsubscribe();
       this.priceSubscription = null;
       this.currentPrice = null;

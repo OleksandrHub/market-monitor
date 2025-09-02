@@ -4,6 +4,7 @@ import { LivePriceComponent } from '../live-price/live-price.component';
 import { AuthService } from '../../core/services/auth.service';
 import { RealtimeService } from '../../core/services/realtime.service';
 import { CommonModule } from '@angular/common';
+import { TestChartComponent } from '../test';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,11 +31,18 @@ export class DashboardComponent implements OnInit {
             this.instruments = response.data || [];
             console.log('Instruments loaded:', this.instruments);
           },
-          error: (err: any) => console.error('Error loading instruments:', err)
+          error: (err: any) => {
+            console.error('Error loading instruments:', err);
+          }
         });
       },
       error: (err: any) => console.error('Error obtaining token:', err)
     });
+    this.instruments = [{
+      id: 'EUR_USD',
+      symbol: 'EUR/USD',
+      description: 'EUR/USD'
+    }]
   }
 
   onInstrumentChange(event: Event): void {

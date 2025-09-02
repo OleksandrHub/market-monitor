@@ -1,0 +1,16 @@
+.chart-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 0;
+    border-radius: 4px;
+}
+
+.chart-container__title {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.chart-container__chart {
+    max-height: 400px;
+}

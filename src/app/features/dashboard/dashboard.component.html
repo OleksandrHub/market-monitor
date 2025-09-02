@@ -10,10 +10,12 @@
     </section>
     <section class="live-price">
         <h2 class="live-price__title">Market Data</h2>
-        <app-live-price class="live-price__container" [instrument]="selectedInstrument"></app-live-price>
+        <app-live-price class="live-price__container" [instrument]="selectedInstrument"
+            [isSubscribed]="isSubscribed"></app-live-price>
     </section>
     <section class="historical-chart">
         <h2 class="historical-chart__title">Charting Data</h2>
-        <app-historical-chart class="historical-chart__container"></app-historical-chart>
+        <app-historical-chart class="historical-chart__container" [instrument]="selectedInstrument"
+            [isSubscribed]="isSubscribed"></app-historical-chart>
     </section>
 </main>

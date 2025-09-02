@@ -1,1 +1,12 @@
-<p>historical-chart.component works!</p>
+@if(instrument && isSubscribed) {
+<div class="chart-container">
+    <h2 class="chart-container__title">Historical Chart for {{ instrument.symbol }}</h2>
+    <canvas class="chart-container__chart" baseChart [data]="lineChartData" [options]="lineChartOptions"
+        [type]="lineChartType">
+    </canvas>
+</div>
+} @else {
+<div class="chart-container">
+    <p>No instrument selected</p>
+</div>
+}
