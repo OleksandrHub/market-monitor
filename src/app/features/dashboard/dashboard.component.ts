@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit {
       next: (response) => {
         this.authService.setTokens(response.access_token, response.refresh_token);
         console.log('Token obtained:', this.authService.getAccessToken());
-        // Proceed with other API calls or WebSocket connection using the token
       },
       error: (err) => {
         console.error('Error obtaining token:', err);

@@ -21,7 +21,7 @@ export class AuthService {
     body.set('password', environment.password);
 
     return this.http.post<AuthResponse>(
-      '/api/identity/realms/fintatech/protocol/openid-connect/token', // Proxied path
+      '/identity/realms/fintatech/protocol/openid-connect/token',
       body.toString(),
       {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
