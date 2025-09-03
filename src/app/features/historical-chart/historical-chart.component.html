@@ -1,1 +1,12 @@
-<div #chartContainer style="width: 100%; height: 400px;"></div>
+<div style="width: 100%; height: 400px;">
+    <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis"
+        [tooltip]="{ enable: true }" [zoomSettings]="{ enableSelectionZooming: true, enablePan: true }" width="100%"
+        height="400px">
+
+        <e-series-collection>
+            <e-series [dataSource]="chartData" type="Candle" xName="time" high="high" low="low" open="open"
+                close="close">
+            </e-series>
+        </e-series-collection>
+    </ejs-chart>
+</div>

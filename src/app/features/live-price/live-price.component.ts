@@ -38,7 +38,7 @@ export class LivePriceComponent implements OnDestroy {
 
     this.wsSubscription = this.realtimeService.connect(token, this.instrument.id)
       .subscribe((data: LivePrice) => {
-        console.log('Live update:', data)
+        // console.log('Live update:', data)
         this.bid = data.bid ?? this.bid;
         this.ask = data.ask ?? this.ask;
         this.last = data.last ?? this.last;

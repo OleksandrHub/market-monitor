@@ -1,7 +1,7 @@
 .dashboard {
     border-radius: 20px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 50px 20px;
     border: 1px solid #ccc;
     width: min(100%, 600px);
 }
@@ -40,6 +40,7 @@
 
     &__container {
         width: 90%;
+        padding: 10px;
         border-radius: 20px;
         border: 1px solid #ccc;
         display: flex;
