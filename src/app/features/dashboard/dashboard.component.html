@@ -16,6 +16,10 @@
     </section>
     <section class="historical-chart">
         <h2 class="historical-chart__title">Charting Data</h2>
-        <app-historical-chart class="historical-chart__container"></app-historical-chart>
+        @if(showChart) {
+        <app-historical-chart class="historical-chart__container" bars="bars"></app-historical-chart>
+        } @else {
+        <p>No instrument selected</p>
+        }
     </section>
 </main>

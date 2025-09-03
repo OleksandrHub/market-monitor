@@ -41,7 +41,7 @@ export class RealtimeService {
 
       if (msg.type === 'l1-update') {
         this.ngZone.run(() => {
-          console.log('Received message:', msg);
+          // console.log('Received message:', msg);
           this.priceSubject.next({
             instrumentId: msg.instrumentId,
             bid: msg.bid?.price,

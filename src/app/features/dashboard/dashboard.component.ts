@@ -6,6 +6,9 @@ import { RealtimeService } from '../../core/services/realtime.service';
 import { Instrument, InstrumentsResponse, SelectInstrument } from '../../core/models/price.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { BarData, UTCTimestamp } from 'lightweight-charts';
+import { HistoricalService } from '../../core/services/historical.service';
+import { BarApiResponse } from '../../core/models/asset.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,11 +18,15 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardComponent implements OnInit {
   livePriceActive = false;
+  showChart = false;
+
   selectedInstrumentId?: string;
   selectedInstrument?: SelectInstrument;
+
+  protected bars: BarData[] = [];
   protected instruments: Instrument[] = [];
 
-  constructor(private authService: AuthService, private realtimeService: RealtimeService) { }
+  constructor(private authService: AuthService, private realtimeService: RealtimeService, private historicalService: HistoricalService) { }
 
   ngOnInit(): void {
     this.authService.getToken().subscribe({
@@ -30,7 +37,6 @@ export class DashboardComponent implements OnInit {
         this.realtimeService.getInstruments().subscribe({
           next: (response: InstrumentsResponse) => {
             this.instruments = response.data;
-            console.log('Instruments:', this.instruments);
           },
           error: (err) => {
             console.error('Error obtaining instruments:', err);
@@ -48,6 +54,25 @@ export class DashboardComponent implements OnInit {
 
     if (this.livePriceActive) {
       this.selectedInstrument = this.instruments.find(instrument => instrument.id === this.selectedInstrumentId);
+      if (!this.showChart) {
+        this.historicalService.getHistoricalBars(this.selectedInstrumentId!, 'oanda', 1, 'minute', 50).subscribe({
+          next: (response: BarApiResponse[]) => {
+            this.bars = response.map(bar => ({
+              time: Math.floor(new Date(bar.timestamp).getTime() / 1000) as UTCTimestamp,
+              open: bar.open,
+              high: bar.high,
+              low: bar.low,
+              close: bar.close
+            }));
+            this.showChart = true;
+          },
+          error: (err) => {
+            console.error('Error in chart component:', err);
+          }
+        })
+      } else {
+        this.showChart = false;
+      }
     } else {
       this.selectedInstrument = undefined;
     }
