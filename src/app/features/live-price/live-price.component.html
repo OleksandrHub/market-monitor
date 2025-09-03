@@ -1,12 +1,27 @@
+@if (active){
 <div class="live-price__info">
     <p class="live-price__text">Symbol:</p>
-    <p class="live-price__text">USD</p>
+    <p class="live-price__text">{{ instrument?.symbol }}</p>
 </div>
 <div class="live-price__info">
     <p class="live-price__text">Price:</p>
-    <p class="live-price__text">1.00</p>
+    <p class="live-price__text">{{ last || ask || bid }}</p>
+</div>
+<div class="live-price__info">
+    <p class="live-price__text">Time:</p>
+    <p class="live-price__text">{{ timestamp | date:'HH:mm:ss' }}</p>
+</div>
+} @else {
+<div class="live-price__info">
+    <p class="live-price__text">Symbol:</p>
+    <p class="live-price__text">N/A</p>
+</div>
+<div class="live-price__info">
+    <p class="live-price__text">Price:</p>
+    <p class="live-price__text">0.00</p>
 </div>
 <div class="live-price__info">
     <p class="live-price__text">Time:</p>
     <p class="live-price__text">00:00</p>
 </div>
+}
