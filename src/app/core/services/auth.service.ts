@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  getToken(): Observable<AuthResponse> {
+  public getToken(): Observable<AuthResponse> {
     const body = new URLSearchParams();
     body.set('grant_type', 'password');
     body.set('client_id', 'app-cli');
@@ -29,18 +29,18 @@ export class AuthService {
     );
   }
 
-  setTokens(accessToken: string, refreshToken: string): void {
+  public setTokens(accessToken: string, refreshToken: string): void {
     this.token = accessToken;
     this.refreshToken = refreshToken;
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
   }
 
-  getAccessToken(): string | null {
+  public getAccessToken(): string | null {
     return this.token || localStorage.getItem('access_token');
   }
 
-  getRefreshToken(): string | null {
+  public getRefreshToken(): string | null {
     return this.refreshToken || localStorage.getItem('refresh_token');
   }
 }

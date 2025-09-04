@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 export class HistoricalService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getHistoricalBars(
+  public getHistoricalBars(
     instrumentId: string,
     provider: string = 'oanda',
     interval: number = 1,

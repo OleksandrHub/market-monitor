@@ -24,7 +24,7 @@ export class HistoricalChartComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['bars'] && this.bars) {
-      console.log('Received bars:', this.bars);
+      // console.log('Received bars:', this.bars);
       this.chartData = this.bars.map(bar => ({
         time: new Date(bar.t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         open: bar.o,

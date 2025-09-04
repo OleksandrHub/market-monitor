@@ -16,11 +16,11 @@ import { HistoricalService } from '../../core/services/historical.service';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
-  livePriceActive = false;
-  showChart = false;
+  public livePriceActive = false;
+  public showChart = false;
 
-  selectedInstrumentId?: string;
-  selectedInstrument?: SelectInstrument;
+  public selectedInstrumentId?: string;
+  public selectedInstrument?: SelectInstrument;
 
   protected bars: BarData[] = [];
   protected instruments: Instrument[] = [];
@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
         this.realtimeService.getInstruments().subscribe({
           next: (response: InstrumentsResponse) => {
             this.instruments = response.data;
+            this.selectedInstrumentId = this.instruments[0].id;
             // console.log('Instruments obtained:', this.instruments);
           },
           error: (err) => {
@@ -49,7 +50,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  toggleLivePrice() {
+  public toggleLivePrice() {
     this.livePriceActive = !this.livePriceActive;
 
     if (this.livePriceActive) {
