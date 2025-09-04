@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { InstrumentsResponse, LivePrice } from '../models/price.model';
 import { WebSocketSubject } from 'rxjs/webSocket';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +15,15 @@ export class RealtimeService {
 
   constructor(private http: HttpClient, private authService: AuthService, private ngZone: NgZone) { }
 
-  getInstruments(provider: string = 'oanda', kind: string = 'forex'): Observable<InstrumentsResponse> {
+  public getInstruments(provider: string = 'oanda', kind: string = 'forex'): Observable<InstrumentsResponse> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.getAccessToken()}`,
     });
     return this.http.get<InstrumentsResponse>(`/api/instruments/v1/instruments?provider=${provider}&kind=${kind}`, { headers });
   }
 
-  connect(token: string, instrumentId: string): Observable<LivePrice> {
-    const url = `wss://platform.fintacharts.com/api/streaming/ws/v1/realtime?token=${token}`;
+  public connect(token: string, instrumentId: string): Observable<LivePrice> {
+    const url = `${environment.wssUrl}/api/streaming/ws/v1/realtime?token=${token}`;
     this.socket = new WebSocket(url);
 
     this.socket.onopen = () => {
@@ -39,9 +40,9 @@ export class RealtimeService {
     this.socket.onmessage = (event) => {
       const msg = JSON.parse(event.data);
 
-      if (msg.type === 'l1-update') {
+      if (msg.type === 'l1-update' || msg.type === 'l1-snapshot') {
         this.ngZone.run(() => {
-          // console.log('Received message:', msg);
+          console.log('Received message:', msg);
           this.priceSubject.next({
             instrumentId: msg.instrumentId,
             bid: msg.bid?.price,
@@ -55,7 +56,7 @@ export class RealtimeService {
     return this.priceSubject.asObservable();
   }
 
-  disconnect() {
+  public disconnect() {
     this.socket?.close();
   }
 }

@@ -15,10 +15,10 @@ export class LivePriceComponent implements OnDestroy {
   @Input() active = false;
   @Input() instrument?: SelectInstrument;
 
-  bid?: number;
-  ask?: number;
-  last?: number;
-  timestamp = Date.now();
+  public bid?: number;
+  public ask?: number;
+  public last?: number;
+  public timestamp = Date.now();
 
   private wsSubscription?: Subscription;
 
@@ -32,7 +32,7 @@ export class LivePriceComponent implements OnDestroy {
     }
   }
 
-  subscribe() {
+  public subscribe() {
     const token = this.authService.getAccessToken();
     if (!this.instrument?.id || !token) return;
 
@@ -46,7 +46,7 @@ export class LivePriceComponent implements OnDestroy {
       });
   }
 
-  unsubscribe() {
+  public unsubscribe() {
     this.wsSubscription?.unsubscribe();
     this.realtimeService.disconnect();
   }
